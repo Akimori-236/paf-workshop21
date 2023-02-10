@@ -1,11 +1,16 @@
 package sg.edu.nus.iss.app.pafworkshop21.controller;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,10 +27,10 @@ public class CustomerRestController {
     @Autowired
     private CustomerService custSvc;
 
-    @GetMapping(path = "/customers")
+    @GetMapping(path = "/customers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Customer>> getCustomers(
-            @RequestParam(value = "offset", defaultValue = "0") String offset,
-            @RequestParam(value = "limit", defaultValue = "5") String limit) throws JsonProcessingException {
+            @RequestParam(value = "offset", defaultValue = "0") Integer offset,
+            @RequestParam(value = "limit", defaultValue = "5") Integer limit) throws JsonProcessingException, SQLException, UnsupportedEncodingException {
         List<Customer> customerList = custSvc.getAllCustomers(limit, offset);
         return new ResponseEntity<>(customerList, HttpStatus.OK);
     }
@@ -62,4 +67,10 @@ public class CustomerRestController {
     // .contentType(MediaType.APPLICATION_JSON)
     // .body(jsonStr);
     // }
+
+    @GetMapping("/attachment/{id}")
+    public ResponseEntity<byte[]> displayAttachment(@PathVariable("id") Integer id) throws IOException {
+        byte[] image = custSvc.getAttachment(id);
+        return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(image);
+    }
 }

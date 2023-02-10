@@ -21,6 +21,15 @@ public class Customer {
     private String web_page;
     private String notes;
     private Blob attachments;
+    private String attachmentString;
+
+    public String getAttachmentString() {
+        return attachmentString;
+    }
+
+    public void setAttachmentString(String attachmentString) {
+        this.attachmentString = attachmentString;
+    }
 
     public int getId() {
         return id;
