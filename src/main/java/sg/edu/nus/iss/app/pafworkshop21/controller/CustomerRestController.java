@@ -1,8 +1,6 @@
 package sg.edu.nus.iss.app.pafworkshop21.controller;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 import sg.edu.nus.iss.app.pafworkshop21.model.Customer;
 import sg.edu.nus.iss.app.pafworkshop21.service.CustomerService;
@@ -30,7 +26,7 @@ public class CustomerRestController {
     @GetMapping(path = "/customers", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Customer>> getCustomers(
             @RequestParam(value = "offset", defaultValue = "0") Integer offset,
-            @RequestParam(value = "limit", defaultValue = "5") Integer limit) throws JsonProcessingException, SQLException, UnsupportedEncodingException {
+            @RequestParam(value = "limit", defaultValue = "5") Integer limit) {
         List<Customer> customerList = custSvc.getAllCustomers(limit, offset);
         return new ResponseEntity<>(customerList, HttpStatus.OK);
     }

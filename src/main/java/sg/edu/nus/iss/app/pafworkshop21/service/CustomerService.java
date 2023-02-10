@@ -1,19 +1,14 @@
 package sg.edu.nus.iss.app.pafworkshop21.service;
 
-import java.io.UnsupportedEncodingException;
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import sg.edu.nus.iss.app.pafworkshop21.model.Customer;
 import sg.edu.nus.iss.app.pafworkshop21.repository.CustomerRepository;
-import sg.edu.nus.iss.app.pafworkshop21.util.JsonUtil;
 
 @Service
 public class CustomerService {
@@ -24,12 +19,9 @@ public class CustomerService {
     @Autowired
     ObjectMapper json;
 
-    public List<Customer> getAllCustomers(Integer limit, Integer offset) throws JsonProcessingException, SQLException, UnsupportedEncodingException {
+    public List<Customer> getAllCustomers(Integer limit, Integer offset) {
         List<Customer> custList = custRepo.getAllCustomers(limit, offset);
         for (Customer cust : custList) {
-            Blob blob = cust.getAttachments();
-            String s = JsonUtil.blobToString(blob);
-            cust.setAttachmentString(s);
             cust.setAttachments(null);
         }
         return custList;

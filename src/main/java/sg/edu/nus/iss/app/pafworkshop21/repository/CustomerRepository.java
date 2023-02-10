@@ -18,7 +18,11 @@ public class CustomerRepository {
     @Autowired
     JdbcTemplate template;
 
-    private String getAllSQL = "SELECT * FROM customers LIMIT ? OFFSET ?";
+    private String getAllSQL = """
+            SELECT *, CONVERT(attachments USING utf8) attachmentString
+            FROM customers
+            LIMIT ? OFFSET ?
+            """;
 
     public List<Customer> getAllCustomers(int limit, int offset) {
         return template.query(getAllSQL, new PreparedStatementSetter() {
@@ -32,6 +36,6 @@ public class CustomerRepository {
 
     public byte[] getAttachment(Integer id) {
         String sql = "SELECT CONVERT(attachments USING utf8) FROM customers WHERE id=?";
-        return template.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> rs.getBytes("attachments"));
+        return template.queryForObject(sql, new Object[] { id }, (rs, rowNum) -> rs.getBytes("attachments"));
     }
 }
