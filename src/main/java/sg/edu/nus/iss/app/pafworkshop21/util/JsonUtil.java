@@ -16,7 +16,7 @@ public class JsonUtil {
         return jObj.toString();
     }
 
-    public static String blobToObj(Blob blob) throws SQLException, UnsupportedEncodingException {
+    public static String blobToString(Blob blob) throws SQLException, UnsupportedEncodingException {
         int blobLength = (int) blob.length();
         byte[] blobAsBytes = blob.getBytes(1, blobLength);
         blob.free();

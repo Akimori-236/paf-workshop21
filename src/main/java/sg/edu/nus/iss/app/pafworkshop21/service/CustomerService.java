@@ -28,7 +28,7 @@ public class CustomerService {
         List<Customer> custList = custRepo.getAllCustomers(limit, offset);
         for (Customer cust : custList) {
             Blob blob = cust.getAttachments();
-            String s = JsonUtil.blobToObj(blob);
+            String s = JsonUtil.blobToString(blob);
             cust.setAttachmentString(s);
             cust.setAttachments(null);
         }
